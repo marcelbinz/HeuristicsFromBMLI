@@ -1,0 +1,112 @@
+---
+title: "Statistical Analysis"
+output: html_document
+---
+
+## Experiment 1: Known Ranking 
+
+```{r}
+suppressMessages(library(lme4))
+
+df <- read.csv("data/exp1.csv")
+df$correct <- as.integer(df$target == df$choice)
+df$step <- as.numeric(scale(df$step))
+df$task <- as.numeric(scale(df$task))
+```
+
+### Test against chance
+
+```{r}
+p_collect <- rep(0, max(df$participant)+1)
+for (i in 1:max(df$participant)+1){
+  p_collect[i] <-(binom.test(sum(df[df$correct==1&df$participant==i, ]$correct), 300, p = 0.5)$p.value)
+}
+print(paste0("Number of participants better than chance: ", sum(p_collect < 0.05)))
+```  
+
+### Learning effects
+```{r}
+learning_effect <- suppressMessages(glmer(correct~-1+step+task+(-1+step+task|participant), data=df, family=binomial))
+summary(learning_effect)
+```
+
+# Experiment 2: Known Direction 
+
+```{r}
+suppressMessages(library(lme4))
+
+df <- read.csv("data/exp2.csv")
+df$correct <- as.integer(df$target == df$choice)
+df$step <- as.numeric(scale(df$step))
+df$task <- as.numeric(scale(df$task))
+```
+
+### Test against chance
+
+```{r}
+p_collect <- rep(0, max(df$participant)+1)
+for (i in 1:max(df$participant)+1){
+  p_collect[i] <-(binom.test(sum(df[df$correct==1&df$participant==i, ]$correct), 300, p = 0.5)$p.value)
+}
+print(paste0("Number of participants better than chance: ", sum(p_collect < 0.05)))
+```  
+
+### Learning effects
+```{r}
+learning_effect <- suppressMessages(glmer(correct~-1+step+task+(-1+step+task|participant), data=df, family=binomial))
+summary(learning_effect)
+```
+
+# Experiment 3: Unknown Ranking and Direction -- 2 Features
+
+```{r}
+suppressMessages(library(lme4))
+
+df <- read.csv("data/exp4.csv")
+df$correct <- as.integer(df$target == df$choice)
+df$step <- as.numeric(scale(df$step))
+df$task <- as.numeric(scale(df$task))
+```
+
+### Test against chance
+
+```{r}
+p_collect <- rep(0, max(df$participant)+1)
+for (i in 1:max(df$participant)+1){
+  p_collect[i] <-(binom.test(sum(df[df$correct==1&df$participant==i, ]$correct), 300, p = 0.5)$p.value)
+}
+print(paste0("Number of participants better than chance: ", sum(p_collect < 0.05)))
+```  
+
+### Learning effects
+```{r}
+learning_effect <- suppressMessages(glmer(correct~-1+step+task+(-1+step+task|participant), data=df, family=binomial))
+summary(learning_effect)
+```
+
+# Experiment 3b: Unknown Ranking and Direction -- 4 Features 
+
+```{r}
+suppressMessages(library(lme4))
+
+df <- read.csv("data/exp3.csv")
+df$correct <- as.integer(df$target == df$choice)
+df$step <- as.numeric(scale(df$step))
+df$task <- as.numeric(scale(df$task))
+```
+
+### Test against chance
+
+```{r}
+p_collect <- rep(0, max(df$participant)+1)
+for (i in 1:max(df$participant)+1){
+  p_collect[i] <-(binom.test(sum(df[df$correct==1&df$participant==i, ]$correct), 300, p = 0.5)$p.value)
+}
+print(paste0("Number of participants better than chance: ", sum(p_collect < 0.05)))
+```  
+
+### Learning effects
+```{r}
+learning_effect <- suppressMessages(glmer(correct~-1+step+task+(-1+step+task|participant), data=df, family=binomial))
+summary(learning_effect)
+```
